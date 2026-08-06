@@ -1,0 +1,124 @@
+import re
+
+def parse_dimensions(text):
+    """
+    Ищет 4 величины: длину, ширину, высоту и количество мест.
+    Корректно обрабатывает слитное написание чисел с буквами (например, 120см, 2шт).
+    """
+    # Приводим к нижнему регистру и заменяем разделители для удобства
+    text = text.lower().replace(',', '.')
+    
+    # 1. Ищем количество мест (удаляем из текста после нахождения, чтобы не путать с габаритами)
+    quantity = 1
+    quantity_match = re.search(r'(\d+)\s*(?:количество|кол-во|мест|шт|q)', text) or \
+                     re.search(r'(?:количество|кол-во|мест|шт|q)\s*[:=-]?\s*(\d+)', text)
+    if quantity_match:
+        quantity = int(quantity_match.group(1))
+        text = text.replace(quantity_match.group(0), " ")
+
+    # 2. Ищем именованные габариты
+    length_match = re.search(r'(?:длина|длин|д|l)\s*[:=-]?\s*(\d+\.?\d*)', text)
+    width_match = re.search(r'(?:ширина|шир|ш|w)\s*[:=-]?\s*(\d+\.?\d*)', text)
+    height_match = re.search(r'(?:высота|выс|в|h)\s*[:=-]?\s*(\d+\.?\d*)', text)
+    
+    l = float(length_match.group(1)) if length_match else None
+    w = float(width_match.group(1)) if width_match else None
+    h = float(height_match.group(1)) if height_match else None
+    
+    # Очищаем текст от уже найденных именованных параметров груза
+    for match in [length_match, width_match, height_match]:
+        if match:
+            text = text.replace(match.group(0), " ")
+            
+    # 3. Если какие-то габариты не найдены по ключам, собираем оставшиеся числа из текста
+    # Шаблон находит числа, даже если они написаны слитно с буквами (120см -> 120)
+    remaining_numbers = re.findall(r'(?<![a-zA-Zа-яА-Я])\d+\.?\d*(?![a-zA-Zа-яА-Я])|\d+\.?\d*', text)
+    remaining_floats = [float(num) for num in remaining_numbers if num.strip()]
+    
+    if l is None and len(remaining_floats) > 0:
+        l = remaining_floats.pop(0)
+    if w is None and len(remaining_floats) > 0:
+        w = remaining_floats.pop(0)
+    if h is None and len(remaining_floats) > 0:
+        h = remaining_floats.pop(0)
+        
+    return l, w, h, quantity
+
+def detect_unit(total_sum):
+    """
+    Строгое определение единиц по ТЗ на основе СУММЫ трех величин.
+    Меньше 300 -> м, Меньше 3000 -> см, Больше или равно 3001 -> мм.
+    """
+    possible_units = []
+    
+    if total_sum < 300:
+        possible_units.append("м")
+    if total_sum < 3000:
+        possible_units.append("см")
+    if total_sum >= 3001:
+        possible_units.append("мм")
+        
+    # Закрываем слепую зону между 3000 и 3001
+    if 3000 <= total_sum < 3001:
+        possible_units.extend(["см", "мм"])
+        
+    return possible_units
+
+def main():
+    print("--- Проверенный Логистический Калькулятор ---")
+    user_input = input("Введите запрос (например: 120см х 80см х 100см, 2 места): ")
+    
+    l, w, h, q = parse_dimensions(user_input)
+    
+    if None in (l, w, h):
+        print("❌ Ошибка: Скрипт не смог распознать 3 габарита (длину, ширину и высоту).")
+        return
+
+    print(f"\n[Успешно распознано]: Длина={l}, Ширина={w}, Высота={h}, Количество мест={q}")
+    total_sum = l + w + h
+    print(f"[Контрольная сумма величин]: {total_sum}")
+    
+    # Проверяем, указал ли пользователь единицы измерения текстом
+    # Очищаем от возможных пересечений в регулярках
+    unit = None
+    cleaned_input = user_input.lower()
+    if "мм" in cleaned_input:
+        unit = "мм"
+    elif "см" in cleaned_input:
+        unit = "см"
+    elif "м" in cleaned_input and not any(x in cleaned_input for x in ["см", "мм", "мест"]): 
+        unit = "м"
+        
+    # Если буквенных обозначений в запросе нет — включаем логику диапазонов ТЗ
+    if not unit:
+        possible_units = detect_unit(total_sum)
+        
+        if len(possible_units) == 1:
+            unit = possible_units[0]
+            print(f"🤖 Система автоматически выбрала единицы: [{unit}]")
+        elif len(possible_units) > 1:
+            print(f"⚠️ Значение ({total_sum}) подходит под несколько диапазонов: {', '.join(possible_units)}")
+            while True:
+                user_unit = input("Добавьте обозначение вручную (введите м, см или мм): ").strip().lower()
+                if user_unit in ["м", "см", "мм"]:
+                    unit = user_unit
+                    break
+                print("Некорректный ввод. Допустимы только: м, см, мм.")
+        else:
+            while True:
+                unit = input("Не удалось определить диапазон. Введите м, см, мм: ").strip().lower()
+                if unit in ["м", "см", "мм"]:
+                    break
+
+    # Итоговый расчет объема в метрах кубических
+    if unit == "мм":
+        volume_m3 = (l * w * h * q) / 1_000_000_000
+    elif unit == "см":
+        volume_m3 = (l * w * h * q) / 1_000_000
+    else:  # м
+        volume_m3 = l * w * h * q
+        
+    print(f"\n📊 Итоговый объем груза: {volume_m3:.4f} м³ (Единицы: {unit}, Мест: {q})")
+
+if __name__ == "__main__":
+    main()
