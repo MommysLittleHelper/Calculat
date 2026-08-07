@@ -1,6 +1,6 @@
 :root {
-    /* Ссылка на качественное фоновое изображение склада/логистики */
-    --bg-image: url('https://unsplash.com');
+    /* Имя вашей картинки, загруженной в репозиторий */
+    --bg-image: url('bg.jpg');
     --card-bg: rgba(255, 255, 255, 0.9);
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -16,10 +16,10 @@
     --shadow: rgba(15, 23, 42, 0.2);
 }
 
-/* Адаптация картинки под темную тему, чтобы склад не слепил глаза ночью */
+/* Автоматическое затемнение вашей картинки для темной темы */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('https://unsplash.com');
+        --bg-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('bg.jpg');
         --card-bg: rgba(19, 28, 46, 0.85);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
@@ -42,7 +42,7 @@ body {
     background: var(--bg-image);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Картинка остается на месте при скролле */
+    background-attachment: fixed;
     background-repeat: no-repeat;
     color: var(--text-main); 
     padding: 20px; 
