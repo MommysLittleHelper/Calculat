@@ -1,24 +1,26 @@
 :root {
-    --bg-gradient: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    --card-bg: rgba(255, 255, 255, 0.85);
+    /* Ссылка на качественное фоновое изображение склада/логистики */
+    --bg-image: url('https://unsplash.com');
+    --card-bg: rgba(255, 255, 255, 0.9);
     --text-main: #0f172a;
     --text-muted: #64748b;
     --border: rgba(15, 23, 42, 0.1);
-    --textarea-bg: rgba(255, 255, 255, 0.9);
+    --textarea-bg: #ffffff;
     --primary: #24318a;
     --primary-hover: #3142bd;
     --badge-bg: #e2e8f0;
     --badge-text: #475569;
-    --warning-bg: rgba(255, 251, 235, 0.8);
+    --warning-bg: rgba(255, 251, 235, 0.9);
     --warning-border: #d97706;
     --warning-text: #b45309;
-    --shadow: rgba(36, 49, 138, 0.15);
+    --shadow: rgba(15, 23, 42, 0.2);
 }
 
+/* Адаптация картинки под темную тему, чтобы склад не слепил глаза ночью */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-gradient: linear-gradient(-45deg, #0f172a, #1e1b4b, #1e293b, #030712);
-        --card-bg: rgba(19, 28, 46, 0.8);
+        --bg-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('https://unsplash.com');
+        --card-bg: rgba(19, 28, 46, 0.85);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --border: rgba(255, 255, 255, 0.08);
@@ -27,19 +29,21 @@
         --primary-hover: #60a5fa;
         --badge-bg: #334155;
         --badge-text: #cbd5e1;
-        --warning-bg: rgba(45, 32, 16, 0.6);
+        --warning-bg: rgba(45, 32, 16, 0.7);
         --warning-border: #b45309;
         --warning-text: #f59e0b;
-        --shadow: rgba(0, 0, 0, 0.4);
+        --shadow: rgba(0, 0, 0, 0.5);
     }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
 
 body { 
-    background: var(--bg-gradient);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Картинка остается на месте при скролле */
+    background-repeat: no-repeat;
     color: var(--text-main); 
     padding: 20px; 
     display: flex; 
@@ -48,18 +52,13 @@ body {
     min-height: 100vh;
 }
 
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .container { 
     width: 100%; max-width: 550px; 
     background: var(--card-bg); 
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     padding: 28px; border-radius: 24px; border: 1px solid var(--border);
     box-shadow: 0 20px 40px -10px var(--shadow); 
+    margin-top: 20px;
 }
 
 h1 { font-size: 22px; margin-bottom: 6px; text-align: center; color: var(--primary); }
@@ -72,8 +71,7 @@ button.calc-btn { width: 100%; background-color: var(--primary); color: white; b
 button.calc-btn:hover { background-color: var(--primary-hover); }
 button.calc-btn:active { transform: scale(0.99); }
 
-.result { border-top: 2px dashed var(--border); padding-top: 20px; margin-top: 20px; animation: fadeInUp 0.4s ease-out forwards; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.result { border-top: 2px dashed var(--border); padding-top: 20px; margin-top: 20px; }
 
 .totals-box { background: rgba(59, 130, 246, 0.08); padding: 15px; border-radius: 14px; margin-bottom: 15px; border-left: 4px solid var(--primary); }
 .totals-box p { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 8px; }
