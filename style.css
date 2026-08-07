@@ -1,6 +1,8 @@
-/* Светлая тема по умолчанию или принудительно */
+/* Настройки картинок и цветов для СВЕТЛОЙ ТЕМЫ */
 html.light, :root {
-    --bg-image: url('bg.jpg');
+    /* Подставляем картинку для светлой темы */
+    --bg-image: url('bg-light.jpg');
+    
     --card-bg: rgba(255, 255, 255, 0.9);
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -17,9 +19,11 @@ html.light, :root {
     --shadow: rgba(15, 23, 42, 0.2);
 }
 
-/* Принудительная Тёмная тема */
+/* Настройки картинок и цветов для ТЁМНОЙ ТЕМЫ */
 html.dark {
-    --bg-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('bg.jpg');
+    /* Полностью меняем картинку на темный вариант */
+    --bg-image: url('bg-dark.jpg');
+    
     --card-bg: rgba(19, 28, 46, 0.85);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
@@ -39,9 +43,17 @@ html.dark {
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
 
 body { 
-    background: var(--bg-image); background-size: cover; background-position: center;
-    background-attachment: fixed; background-repeat: no-repeat;
-    color: var(--text-main); padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;
+    background: var(--bg-image); 
+    background-size: cover; 
+    background-position: center;
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+    color: var(--text-main); 
+    padding: 20px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    min-height: 100vh;
 }
 
 .container { 
