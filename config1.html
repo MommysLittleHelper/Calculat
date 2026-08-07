@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логистический калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📦 Логистический калькулятор</h1>
+    <p class="subtitle">Умный автовыбор единиц измерения сторон</p>
+    
+    <textarea id="inputText" placeholder="Вставьте строки сюда...&#10;Пример: 6*5*4&#10;Или: 1500 x 500 x 1000"></textarea>
+    <button class="calc-btn" onclick="calculate()">Рассчитать объем</button>
+
+    <div id="resultBox" class="result" style="display:none;">
+        <div class="totals-box">
+            <p><span>🚚 Общий объем:</span> <span id="totalVolume"><strong>0.0000</strong> м³</span></p>
+            <p><span>🔢 Всего мест:</span> <span id="totalPieces" style="font-weight:600;">0 шт.</span></p>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyResults()">📋 Скопировать отчет</button>
+        <div class="details-title">🔍 Построчный разбор текста:</div>
+        <div id="detailsList"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
