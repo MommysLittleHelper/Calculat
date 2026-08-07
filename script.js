@@ -18,15 +18,15 @@ function calculate() {
         
         var qMatch = line.match(/(\d+)\s*(?:количество|кол-во|мест|шт|q)/) || line.match(/(?:количество|кол-во|мест|шт|q)\s*[:=-]?\s*(\d+)/);
         if (qMatch) {
-            quantity = parseInt(qMatch[1]);
-            line = line.replace(qMatch[0], " ");
+            quantity = parseInt(qMatch);
+            line = line.replace(qMatch, " ");
             hasQ = true;
         }
         
         var numbers = line.match(/\d+(\.\d+)?/g);
         if (numbers && numbers.length >= 3) {
             if (numbers.length === 4 && !hasQ) {
-                quantity = parseInt(numbers[3]);
+                quantity = parseInt(numbers);
             }
             
             var l = parseFloat(numbers[0]), w = parseFloat(numbers[1]), h = parseFloat(numbers[2]);
