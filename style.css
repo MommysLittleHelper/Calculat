@@ -103,3 +103,53 @@ button.copy-btn:hover { background: var(--primary); color: white; }
 
 .warning-line { background-color: var(--warning-bg); border-left: 4px solid var(--warning-border); }
 .warning-text { font-size: 11px; color: var(--warning-text); margin-top: 5px; font-weight: bold; }
+
+
+/* Позиционирование информера валют в правом верхнем углу */
+.currency-widget-top-right {
+    position: fixed;
+    top: 15px;      /* Отступ от верхнего края */
+    right: 15px;    /* Отступ от правого края */
+    
+    /* Красивый полупрозрачный фон с размытием */
+    background: rgba(255, 255, 255, 0.08); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: inherit;
+    z-index: 100; /* Всегда поверх других элементов */
+    
+    /* Полная защита от выделения и копирования мыжкой */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/* Если у вас на сайте темная тема имеет класс dark, делаем плашку чуть контрастнее */
+.dark .currency-widget-top-right {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-title {
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+}
+
+.currency-rates {
+    display: flex;
+    gap: 12px;
+}
+
+.rate-item {
+    white-space: nowrap;
+}
