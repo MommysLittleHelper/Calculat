@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calc-volume-v1';
+const CACHE_NAME = 'calc-volume-v2';
 // Укажите точные имена ваших файлов, которые нужно сохранить для офлайна
 const ASSETS = [
   './',
