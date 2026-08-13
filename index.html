@@ -6,6 +6,8 @@
     <title>Логистический калькулятор</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script> 
+    <link rel="manifest" href="manifest.webmanifest">
+
 </head>
 <body>
 
@@ -45,5 +47,14 @@
         <div id="detailsList"></div>
     </div>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Офлайн режим успешно активирован!'))
+      .catch((err) => console.log('Ошибка активации офлайн-режима:', err));
+  }
+</script>
+
+    
 </body>
 </html>
