@@ -3,11 +3,14 @@ const CACHE_NAME = 'calc-volume-v1';
 const ASSETS = [
   './',
   './index.html',
-  './calculator.js', // или script.js, смотря как называется ваш файл
+  './script.js',    // ИСПРАВЛЕНО: Указали реальное имя файла вместо calculator.js
+  './style.css',    // ДОБАВЛЕНО: Чтобы стили и фон тоже работали без интернета
+  './bg-light.jpg', // ДОБАВЛЕНО: Чтобы фоновая картинка не пропадала офлайн
   './icon16.png',
   './icon48.png',
   './icon128.png'
 ];
+
 
 // Скачиваем файлы в кэш при первой установке
 self.addEventListener('install', (e) => {
